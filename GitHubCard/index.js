@@ -65,7 +65,7 @@ gitData = user => {
   axios
   .get(`https://api.github.com/users/${user}`)
   .then(userdata => {
-    console.log(userdata)
+    console.log(userdata);
     gitCards(userdata.data)
   })
 }
