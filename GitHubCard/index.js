@@ -24,7 +24,7 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -53,3 +53,66 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+// axios
+// .get(`https://api.github.com/users/vospader13`)
+// .then(userdata => {
+//   console.log(userdata)
+//   gitCards(userdata.data)
+// });
+
+gitData = user => {
+  axios
+  .get(`https://api.github.com/users/${user}`)
+  .then(userdata => {
+    console.log(userdata)
+    gitCards(userdata.data)
+  })
+}
+
+let gitPpl = [
+  'vospader13',
+  'Broast42',
+  'tlewandowski18',
+  'dvwhite',
+  'rachellsincere',
+  'fuston05'
+];
+
+gitPpl.forEach(user => {
+gitData(user)
+})
+
+const gitCards = user => {
+let entry = document.querySelector('.cards')
+let newCard = document.createElement('div')
+
+let creator = (element, attributes, ...children) => {
+  const el = document.createElement(element)
+
+  for (key in attributes) {
+    el.setAttribute(key, attributes[key])
+  }
+
+  children.forEach(child => {
+    if (typeof child === 'string') {
+      el.appendChild(document.createTextNode(child))
+    } else {
+      el.appendChild(child)
+    }
+  })
+
+  return el
+}
+
+let cardOne = creator('div',{class:'card'},creator('img',{src:user.avatar_url}));
+let cardTwo = creator('span',{class:'card-info'},creator('h3',{class:'name'},`${user.name}`));
+let cardThree = creator('div',{class:' '},creator('p',{class:'username'},`${user.login}`),
+            creator('p',{},`Location: ${user.location}`),creator('p',{},
+            creator('a',{href:user.html_url},user.html_url.toString())),
+            creator('p',{},`Followers: ${user.followers}`),
+            creator('p',{},`Following: ${user.following}`));
+entry.appendChild(cardOne);
+cardOne.appendChild(cardTwo);
+cardTwo.appendChild(cardThree);
+}
